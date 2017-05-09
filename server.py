@@ -25,17 +25,26 @@ def pIndex():
 		username = request.form['user']
 		password = request.form['password']
 		print ("\t{}  {}".format(username, password))
-#		login_result = md.loginUser(checkLogin()
-		return render_template('main.html')
+		login_result = md.login_user(username, password)
+		print (login_result)
+		if login_result:
+			logged = True
+			print('login is Something')
+			master = md.get_collection()
+			return render_template('main.html', master=master)
+		else:
+			print('login is None')
+			return render_template('index.html', logged)
 
 	# default render
 	print("\t{}".format(request))
-	return render_template('index.html')
+	return render_template('index.html', logged=False)
 
 
 @app.route('/main', methods=['GET', 'POST'])
 def pMain():
 	print("===SERVER-MAIN===")
+
 	return render_template('main.html')
 
 # start the server

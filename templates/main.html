@@ -2,6 +2,23 @@
 <h1 style="color: #5e9ca0;">Personal Property Insurance Claim Tracker</h1>
 <h2 style="color: #2e6c80;">How to use the editor:</h2>
 <p>Right now there is nothing to do. It just prints the current master list stored in the local database in tabular form.</p>
+<br><hr>
+
+
+<h2>Current List</h2>
+	<table>
+		<tr>
+			<td colspan="2"><font size=6> Insurance List</font></td>
+		</tr>
+		{% for item in master %}
+		<tr>
+			<td>{{item['seq']}}: </td>
+			<td>{{item['repl-desc']}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+
+	
 <p>&nbsp;</p>
 <h2 style="color: #2e6c80;">Some useful features coming soon:</h2>
 <ol style="list-style: none; font-size: 14px; line-height: 32px; font-weight: bold;">
