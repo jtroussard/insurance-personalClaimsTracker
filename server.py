@@ -30,7 +30,8 @@ def pIndex():
 		if login_result:
 			logged = True
 			print('login is Something')
-			master = md.get_collection()
+			#master = md.get_collection()
+			master = []
 			return render_template('main.html', master=master)
 		else:
 			print('login is None')
@@ -44,6 +45,16 @@ def pIndex():
 @app.route('/main', methods=['GET', 'POST'])
 def pMain():
 	print("===SERVER-MAIN===")
+	print("\t{}".format(request))
+	print("\t{}".format(request.form))
+	if request.method == 'POST':
+		if "show-list" in request.form:
+			master = md.get_collection()
+			return render_template('main.html', master=master)
+		elif "hide-list" in request.form:
+			master = []
+			return render_template('main.html', master=master)
+			
 
 	return render_template('main.html')
 
