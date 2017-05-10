@@ -6,7 +6,18 @@
 <form action="/main" method="POST">
 <input name="show-list" id="submit" type="submit" value="   Show Master   " />
 <input name="hide-list" id="submit" type="submit" value="   Hide Master   " />
+<input name="show-unapproved" id="submit" type="submit" value="   Show Unapproved Only   " />
 </form>
+
+<form action="/main" method="POST">
+<input type="text" name="desc" placeholder="description"><br>
+<input type="text" name="qty" placeholder="quantity"><br>
+<input type="text" name="owner" placeholder="owner"><br>
+<input type="text" name="room" placeholder="room"><br>
+<input type="text" name="notes" placeholder="notes"><br>
+<input name="add-doc" id="submit" type="submit" value="   Add Line Item   " />
+</form>
+
 <table>
 	<tr>
 		<td colspan="2"><font size=6> Insurance List</font></td>
@@ -14,7 +25,13 @@
 	{% for item in master %}
 	<tr>
 		<td>{{item['seq']}}: </td>
-		<td>{{item['repl-desc']}}</td>
+		<td>
+			{% if not item['repl-desc'] %}
+				<font color="blue">{{item['orig-desc']}}</font>
+			{% else %}
+				{{item['repl-desc']}}
+			{% endif %}
+		</td>
 	</tr>
 	{% endfor %}
 </table>

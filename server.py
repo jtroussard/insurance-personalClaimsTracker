@@ -54,7 +54,20 @@ def pMain():
 		elif "hide-list" in request.form:
 			master = []
 			return render_template('main.html', master=master)
-			
+		elif "show-unapproved" in request.form:
+			master = md.get_unapproved()
+			return render_template('main.html', master=master)
+		elif "add-doc" in request.form:
+			print("add-doc button pressed")
+			print("new item desc: {}".format(request.form['desc']))
+			desc  = request.form['desc']
+			qty   = request.form['qty']
+			owner = request.form['owner']
+			room  = request.form['room']
+			notes = request.form['notes']
+
+			md.insert_doc(desc, qty, owner, room, notes)			
+		
 
 	return render_template('main.html')
 
