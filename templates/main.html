@@ -1,14 +1,18 @@
 <!-- #######  YAY, I AM THE SOURCE EDITOR! #########-->
 <h1 style="color: #5e9ca0;">Personal Property Insurance Claim Tracker</h1>
-<h2 style="color: #2e6c80;">How to use the editor:</h2>
-<p>Right now there is nothing to do. It just prints the current master list stored in the local database in tabular form.</p>
 <br><hr>
+
+<!-- FILTER MAIN DISPLAY LIST -->
+<h2>List Filters</h2>
 <form action="/main" method="POST">
 <input name="show-list" id="submit" type="submit" value="   Show Master   " />
 <input name="hide-list" id="submit" type="submit" value="   Hide Master   " />
 <input name="show-unapproved" id="submit" type="submit" value="   Show Unapproved Only   " />
 </form>
 
+<!-- ADD A NEW ITEM TO THE DATABASE -->
+<hr>
+<h2>Add Line Item</h2>
 <form action="/main" method="POST">
 <input type="text" name="desc" placeholder="description"><br>
 <input type="text" name="qty" placeholder="quantity"><br>
@@ -17,6 +21,99 @@
 <input type="text" name="notes" placeholder="notes"><br>
 <input name="add-doc" id="submit" type="submit" value="   Add Line Item   " />
 </form>
+
+<!-- MODIFY A LINE ITEM -->
+<hr>
+<h2>Modify Line Item</h2>
+<form action="/main" method="POST">
+<h3>Retrieve Item by Line Number</h3>
+<input type="text" name="active_doc_seq" placeholder="Line Item Number" autocomplete="off" required><br>
+<input name="rtn-doc" id="submit" type="submit" value="   Get Line Item   " />
+</form>
+
+{% if active_doc %}
+<table>
+<form action="/main" method="POST">
+<tr><td colspan="2"><h3>Edit Values</h3></td><tr>
+<tr>
+	<td>Line Number:</td>
+	<td><input type="text" name="m_seq" value="{{active_doc['seq']}}" readonly="readonly"></td>
+</tr>
+<tr>
+	<td>Replacement Description:</td>
+	<td><input type="text" name="m_repl-desc" value="{{active_doc['repl-desc']}}"></td>
+</tr>
+<tr>
+	<td>Original Description:</td>
+	<td><input type="text" name="m_orig-desc" value="{{active_doc['orig-desc']}}"></td>
+</tr>
+<tr>
+	<td>Quantity:</td>
+	<td><input type="text" name="m_qty" value={{active_doc['qty']}}></td>
+</tr>
+<tr>
+	<td>Unit Price:</td>
+	<td><input type="text" name="m_unit-price" value={{active_doc['unit-price']}}></td>
+</tr>
+<tr>
+	<td>Estimate Amount (Total):</td>
+	<td><input type="text" name="m_est-amt" value={{active_doc['est-amt']}}></td>
+</tr>
+<tr>
+	<td>Additional Amount (Tax):</td>
+	<td><input type="text" name="m_tax" value={{active_doc['tax']}}></td>
+</tr>
+<tr>
+	<td>Replacement Cost:</td>
+	<td><input type="text" name="m_repl-cost" value={{active_doc['repl-cost']}}></td>
+</tr>
+<tr>
+	<td>Depreciation:</td>
+	<td><input type="text" name="m_depr" value={{active_doc['depr']}}></td>
+</tr>
+<tr>
+	<td>Actual Value:</td>
+	<td><input type="text" name="m_acv" value={{active_doc['acv']}}></td>
+</tr>
+<tr>
+	<td>Owner:</td>
+	<td><input type="text" name="m_owner" value={{active_doc['owner']}}></td>
+</tr>
+<tr>
+	<td>Location/Room:</td>
+	<td><input type="text" name="m_room" value="{{active_doc['room']}}"></td>
+</tr>
+<tr><td colspan="2"><h3>Flags and Notes</h3></td><tr>
+<tr>
+	<td>Original?</td>
+	<td><input type="text" name="m_original" value={{active_doc['original']}}></td>
+</tr>
+<tr>
+	<td>Modified?</td>
+	<td><input type="text" name="m_modified" value={{active_doc['modified']}}></td>
+</tr>
+<tr>
+	<td>Replaced?</td>
+	<td><input type="text" name="m_replaced" value={{active_doc['replaced']}}></td>
+</tr>
+<tr>
+	<td>Reimbursed?</td>
+	<td><input type="text" name="m_reimbursed" value={{active_doc['reimbursed']}}></td>
+</tr>
+<tr>
+	<td>Invoice (store-number):</td>
+	<td><input type="text" name="m_invoice" value={{active_doc['invoice']}}></td>
+</tr>
+<tr>
+	<td>Notes:</td>
+	<td><input type="text" name="m_notes" value="{{active_doc['notes']}}"></td>
+</tr>
+<tr><td colspan="2"><input name="mod-doc" id="submit" type="submit" value="   Modify Line Item   " /></td></tr>
+</form>
+</table>
+{% endif %}
+
+<br><br>
 
 <table>
 	<tr>

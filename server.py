@@ -45,6 +45,8 @@ def pIndex():
 @app.route('/main', methods=['GET', 'POST'])
 def pMain():
 	print("===SERVER-MAIN===")
+	master = []
+	active_doc = []
 	print("\t{}".format(request))
 	print("\t{}".format(request.form))
 	if request.method == 'POST':
@@ -57,6 +59,34 @@ def pMain():
 		elif "show-unapproved" in request.form:
 			master = md.get_unapproved()
 			return render_template('main.html', master=master)
+		elif "rtn-doc" in request.form:
+			active_doc_num = request.form['active_doc_seq']
+			active_doc = md.rtn_doc(request.form['active_doc_seq'])
+			return render_template('main.html', master=master, active_doc=active_doc)
+		elif "mod-doc" in request.form:
+			print("\t\t---mod-doc---")
+			seq = request.form['m_seq']
+			rds = request.form['m_repl-desc']
+			ods = request.form['m_orig-desc']
+			qty = request.form['m_qty']
+			upr = request.form['m_unit-price']
+			est = request.form['m_est-amt']
+			add = request.form['m_tax']
+			rpl = request.form['m_repl-cost']
+			dep = request.form['m_depr']
+			acv = request.form['m_acv']
+			own = request.form['m_owner']
+			rom = request.form['m_room']
+			org = request.form['m_original']
+			mod = request.form['m_modified']
+			rmb = request.form['m_reimbursed']
+			print(request.form['m_replaced'])			
+			rpp = request.form['m_replaced']
+			print("CHECKING, acv, est, add, rpl, dep, rmb")
+			inv = request.form['m_invoice']
+			nts = request.form['m_notes']
+			md.mod_doc(seq, rds, ods, qty, upr, est, add, rpl, dep, acv, own, rom, org, mod, rpp, rmb, inv, nts)
+			return render_template('main.html', master=master, active_doc=active_doc)	
 		elif "add-doc" in request.form:
 			print("add-doc button pressed")
 			print("new item desc: {}".format(request.form['desc']))
@@ -69,7 +99,7 @@ def pMain():
 			md.insert_doc(desc, qty, owner, room, notes)			
 		
 
-	return render_template('main.html')
+	return render_template('main.html', master=master, active_doc=active_doc)
 
 # start the server
 if __name__ == '__main__':
