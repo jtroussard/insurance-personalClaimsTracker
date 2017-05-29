@@ -153,88 +153,101 @@ def mod_doc(r_seq, r_repl_desc, r_orig_desc, r_qty, r_unit_price, r_est_amt, r_t
 
 	for key in original_doc:
 		print(key)
-	
+
+	# log string building & recording: if the document attribute is different 
+	# from the original document, modify the document entry and append the 
+	# record entry string otherwise check if the document attribute entry
+	# needs to be added to the document. If it does, modify the document and
+	# appened this action to the record entry string. If the neither of these
+	# conditions are met this means that the document attribute has not
+	# been modified and the program should move on to the next document
+	# attribute.
 	if 'repl-desc' in original_doc and r_repl_desc != original_doc['repl-desc']:
 		record_entry += "replacement desc: " + original_doc['repl-desc'] + " => " + r_repl_desc + "\n"
-	else:
+	elif 'repl-desc' not in original_doc:
 		original_doc = { 'repl-desc' : r_repl_desc }
 		record_entry += "replacement desc: EMPTY => " + r_repl_desc + "\n"
 
 	if 'orig-desc' in original_doc and r_orig_desc != original_doc['orig-desc']:
 		record_entry += "original desc: " + original_doc['orig-desc'] + " => " + r_orig_desc + "\n"
-	else:
+	elif 'orig-desc' not in original_doc:
 		original_doc = { 'orig-desc' : r_orig_desc }
 		record_entry += "original desc: EMPTY => " + r_orig_desc + "\n"
 
 	if 'qty' in original_doc and r_qty != original_doc['qty']:
 		record_entry += "qty: " + original_doc['qty'] + " => " + r_qty + "\n"
-	else:
+	elif 'qty' not in original_doc:
 		original_doc = { 'qty' : r_qty }
 		record_entry += "qty: EMPTY => " + r_qty + "\n"
 
 	if 'unit-price' in original_doc and r_unit_price != original_doc['unit-price']:
 		record_entry += "unit price: " + original_doc['unit-price'] + " => " + r_unit_price + "\n"
-	else:
+	elif 'unit-price' not in original_doc:
 		original_doc = { 'unit-price' : r_unit_price }
 		record_entry += "unit price: EMPTY => " + r_unit_price + "\n"
 
 	if 'est-amt' in original_doc and r_est_amt != original_doc['est-amt']:
 		record_entry += "estimate amount: " + original_doc['est-amt'] + " => " + r_est_amt + "\n"
-	else:
+	elif 'est-amt' not in original_doc:
 		original_doc = { 'est-amt' : r_est_amt }
 		record_entry += "estimate amount: EMPTY => " + r_est_amt + "\n"
 	
 	if 'tax' in original_doc and r_tax != original_doc['tax']:
 		record_entry += "additional: " + original_doc['tax'] + " => " + r_tax + "\n"
-	else:
+	elif 'tax' not in original_doc:
 		original_doc = { 'tax' : r_tax }
 		record_entry += "additional: EMPTY => " + r_tax + "\n"
 
 	if 'repl-cost' in original_doc and r_repl_cost != original_doc['repl-cost']:
 		record_entry += "replacement cost: " + original_doc['repl-cost'] + " => " + r_repl_cost + "\n"
-	else:
+	elif 'repl-cost' not in original_doc:
 		original_doc = { 'repl-cost' : r_repl_cost }
 		record_entry += "replacement cost: EMPTY => " + r_repl_cost + "\n"
 	
 	if 'depr' in original_doc and r_depr != original_doc['depr']:
 		record_entry += "depreciation: " + original_doc['depr'] + " => " + r_depr + "\n"
-	else:
+	elif 'depr' not in original_doc:
 		original_doc = { 'depr' : r_depr }
 		record_entry += "depreciation: EMPTY => " + r_depr + "\n"
 
 	if 'acv' in original_doc and r_acv != original_doc['acv']:
 		record_entry += "actual value" + original_doc['actual value'] + " => " + r_acv + "\n"
-	else:
+	elif 'acv' not in original_doc:
 		original_doc = { 'acv' : r_acv }
 		record_entry += "actual value: EMPTY  => " + r_acv + "\n"
 
 	if 'replaced' in original_doc and r_replaced != original_doc['replaced']:
 		record_entry += "replaced: " + original_doc['replaced'] + " => " + r_replaced + "\n"
-	else:
+	elif 'replaced' not in original_doc:
 		original_doc = { 'replaced' : r_replaced }
 		record_entry += "replaced: EMPTY => " + r_replaced + "\n"
 
 	if 'reimbursed' in original_doc and r_reimbursed != original_doc['reimbursed']:
 		record_entry += "reimbursed: " + original_doc['reimbursed'] + " => " + r_reimbursed + "\n"
-	else:
+	elif 'reimbursed' not in original_doc:
 		original_doc = { 'reimbursed' : r_reimbursed }
 		record_entry += "reimbursed: EMPTY => " + r_reimbursed + "\n"
 
 	if 'invoice' in original_doc and r_invoice != original_doc['invoice']:
 		record_entry += "invoice: " + original_doc['invoice'] + " => " + r_invoice + "\n"
-	else:
+	elif 'invoice' not in original_doc:
 		original_doc = { 'invoice' : r_invoice }
 		record_entry += "invoice: EMPTY => " + r_invoice + "\n"
 
 	if 'notes' in original_doc and r_notes != original_doc['notes']:
 		record_entry += "notes: " + original_doc['notes'] + " => " + r_notes + "\n"
-	elif :
+	elif 'notes' not in original_doc:
 		original_doc = { 'notes' : r_notes }
 		record_entry += "notes: EMPTY => " + r_notes + "\n"
 
+	# load date and time into time variable. load date and record entry string
+	# built in previous if else suite, into dict to be appended to document's
+	# history list attribute
 	now = datetime.datetime.now()
 	history_entry = { "date" : now, "record" : record_entry, }
 
+	# find the appropriate document and update as pre the form variables
+	# including the history entry
 	collection.find_one_and_update(	{"seq"  :int(r_seq)},
 									{"$set" : {
 										"repl-desc" : r_repl_desc,
